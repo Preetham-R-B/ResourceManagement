@@ -26,7 +26,8 @@ import com.Prpject.demo.Service.ProjectService;
 import com.Prpject.demo.model.Employee;
 import com.Prpject.demo.model.Project;
 
-@RestController(value = "/project")
+@RestController()
+@RequestMapping("/project")
 public class ProjectController {
 
 	@Autowired
@@ -44,8 +45,7 @@ public class ProjectController {
 //		return "index.html";
 
 	}
-	
-	
+
 	@PostMapping(value = "/{projectid}")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public String saveProject(@RequestBody ProjectRequest projectRequest) {
@@ -69,13 +69,6 @@ public class ProjectController {
 	public String editProject(@RequestBody ProjectRequest projectRequest) {
 		service.edit(projectRequest);
 		return "redirect:/";
-	}
-	
-	@PostMapping(value = "/{projectid}")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public void assignEmployeetoProject() {
-		
-		
 	}
 
 }

@@ -15,17 +15,17 @@ import com.Prpject.demo.model.ProjectToEmployee;
 @Service
 public class ProjectAllocationService {
 	@Autowired
-	private static ProjectAllocationRepo projectAllocationRepo;
+	private  ProjectAllocationRepo projectAllocationRepo;
 	
 	@Autowired
-	private static ProjectRepo projectRepo;
+	private  ProjectRepo projectRepo;
 	
 	@Autowired
-	private static EmployeeRepo employeeRepo;
+	private  EmployeeRepo employeeRepo;
 	
 	private Logger logger = LogManager.getLogger(ProjectService.class);
 
-	public static void save(long projectId, long employeeId) {
+	public void save(long projectId, long employeeId) {
 		ProjectToEmployee projectToEmployee = new ProjectToEmployee();
 		Employee emp = employeeRepo.findById(projectId).get();
 		Project proj = projectRepo.findById(projectId).get();

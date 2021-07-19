@@ -1,66 +1,79 @@
 package com.Prpject.demo.Controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.Prpject.demo.Service.EmployeeService;
 import com.Prpject.demo.model.Employee;
 
-
-
-
-@RestController
+@RestController(value = "/employee")
 public class EmployeeController {
-	
+
 	@Autowired
 	private EmployeeService service;
+
+	private Logger logger = LogManager.getLogger(EmployeeController.class);
+
+	@GetMapping()
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<Employee> EmployeeView() {
+		logger.debug("Inside EmployeeView");
+		List<Employee> listEmployee = service.EmployeelistAll();
+		logger.debug("Exiting EmployeeView");
+		return listEmployee;
+//		return "index.html";
+
+	}
+
+	@PostMapping(value = "/{employeeEmail}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public String saveEmployee(@PathVariable("employeeEmail") String employeeEmail) {
+		logger.debug("Inside SaveEmployee");
+		Employee employee = new Employee();
+		employee.setEmployeeEmail(employeeEmail);
+		logger.debug("Setting EmployeeEmail");
+		service.save(employee);
+		logger.debug("After SavingEmployee");
+		return "Created";
+//		return "redirect:/";
+	}
+
+	@DeleteMapping(value = "/{employeeEmail}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public String deleteEmployee(@PathVariable("employeeEmail") String employeeEmail) {
+		logger.debug("Inside deleteEmployee");
+		service.delete(employeeEmail);
+		logger.debug("Deleted Employee");
+		return "redirect:/";
+	}
 	
-	 @GetMapping(value="/employee") 
-	  public String viewHomePage(Model model) {
-		  List<Employee> listEmployee = service.listAll(); 
-		  model.addAttribute("listemployee",listEmployee); 
-		  System.out.print("Get / "); 
-	          return "index.html";
-	  
-	  }
-	 
-	 @GetMapping("/newemployee")
-		public String addEmployee(Model model) {
-			model.addAttribute("Employee", new Employee());
-			return "new";
+	@PutMapping(value = "/{employeeEmail}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public String editEmployee(@PathVariable("employeeEmail") String employeeEmail) {
+		logger.debug("Inside editEmployee");
+		List<Employee> listEmployee = service.EmployeelistAll();
+		if(listEmployee.contains(employeeEmail)) {
+			service.edit(employeeEmail);
 		}
+		logger.debug("Edited Employee");
+		return "redirect:/";
+	}
 
-		@RequestMapping(value = "/saveemployee", method = RequestMethod.POST)
-		@ResponseBody 
-		public String saveEmployee(@ModelAttribute("Employee") Employee std) {
-			service.save(std);
-			return "redirect:/";
-		}
 
-		@RequestMapping("/editemployee/{id}")
-		public ModelAndView EditEmployeePage(@PathVariable(name = "id") int id) {
-			ModelAndView mav = new ModelAndView("new");
-			Employee std = service.get(id);
-			mav.addObject("Employee", std);
-			return mav;
-
-		}
-
-		@RequestMapping("/deleteemployee/{id}")
-		public String deleteEmployee(@PathVariable(name = "id") int id) {
-			service.delete(id);
-			return "redirect:/";
-		}
-
+	/*
+	 * @PostMapping("/addTechnology")
+	 * 
+	 * @ResponseStatus }
+	 */
 }

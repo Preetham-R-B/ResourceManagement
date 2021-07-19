@@ -6,22 +6,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Prpject.demo.Service.TechnologyService;
 import com.Prpject.demo.model.Technology;
 
-@RestController
+@RestController(value = "/technology")
 public class TechnologyController {
 
 	@Autowired
@@ -43,9 +38,12 @@ public class TechnologyController {
 	@PostMapping(value = "/technology/{tech}")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public String saveTechnology(@PathVariable("tech") String tech) {
+		logger.debug("Inside SaveTechnology");
 		Technology technology = new Technology();
 		technology.setTechnologyName(tech);
+		logger.debug("Setting TechnologyName");
 		service.save(technology);
+		logger.debug("After SavingTechnology");
 		return "Created";
 //		return "redirect:/";
 	}
@@ -55,6 +53,7 @@ public class TechnologyController {
 	public String deleteTechnology(@PathVariable("tech") String tech) {
 		logger.debug("Inside deleteTechnology");
 		service.delete(tech);
+		logger.debug("Deleting Technology");
 		return "redirect:/";
 	}
 

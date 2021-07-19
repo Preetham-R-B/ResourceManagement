@@ -11,71 +11,62 @@ public class Project {
 	
 	@Id
 	@Column(name="PROJECT_ID")
-	private int PROJECT_ID;
+	private int ProjectId;
 	
 	@Column(name="PROJECT_NAME")
-	private String PROJECT_NAME;
+	private String ProjectName;
 	
 	@Column(name="PROJECT_DESCRIPTION")
-	private String PROJECT_DESCRIPTION;
+	private String ProjectDescription;
 	
 	@Column(name="PROJECT_START_DATE")
-	private String PROJECT_START_DATE;
+	private String ProjectStartDate;
 
 	@Column(name="PROJECT_END_DATE")
-	private String PROJECT_END_DATE;
+	private String ProjectEndDate;
 	
 	@Column(name="EMPLOYEE_COUNT")
-	private int EMPLOYEE_COUNT;
+	private int EmployeeCount;
 	public Project() {
 		
 	
 	}
-	public Project(int PROJECT_ID, String PROJECT_NAME, String PROJECT_DESCRIPTION, String PROJECT_START_DATE,
-			String PROJECT_END_DATE, int eMPLOYEE_COUNT) {
-		super();
-		this.PROJECT_ID = PROJECT_ID;
-		this.PROJECT_NAME = PROJECT_NAME;
-		this.PROJECT_DESCRIPTION = PROJECT_DESCRIPTION;
-		this.PROJECT_START_DATE = PROJECT_START_DATE;
-		this.PROJECT_END_DATE = PROJECT_END_DATE;
-		this.EMPLOYEE_COUNT = eMPLOYEE_COUNT;
+	public int getProjectId() {
+		return ProjectId;
 	}
-	public int getPROJECT_ID() {
-		return PROJECT_ID;
+	public void setProjectId(int projectId) {
+		ProjectId = projectId;
 	}
-	public void setPROJECT_ID(int pROJECT_ID) {
-		PROJECT_ID = pROJECT_ID;
+	public String getProjectName() {
+		return ProjectName;
 	}
-	public String getPROJECT_NAME() {
-		return PROJECT_NAME;
+	public void setProjectName(String projectName) {
+		ProjectName = projectName;
 	}
-	public void setPROJECT_NAME(String pROJECT_NAME) {
-		PROJECT_NAME = pROJECT_NAME;
+	public String getProjectDescription() {
+		return ProjectDescription;
 	}
-	public String getPROJECT_DESCRIPTION() {
-		return PROJECT_DESCRIPTION;
+	public void setProjectDescription(String projectDescription) {
+		ProjectDescription = projectDescription;
 	}
-	public void setPROJECT_DESCRIPTION(String pROJECT_DESCRIPTION) {
-		PROJECT_DESCRIPTION = pROJECT_DESCRIPTION;
+	public String getProjectStartDate() {
+		return ProjectStartDate;
 	}
-	public String getPROJECT_START_DATE() {
-		return PROJECT_START_DATE;
+	public void setProjectStartDate(String projectStartDate) {
+		ProjectStartDate = projectStartDate;
 	}
-	public void setPROJECT_START_DATE(String pROJECT_START_DATE) {
-		PROJECT_START_DATE = pROJECT_START_DATE;
+	public String getProjectEndDate() {
+		return ProjectEndDate;
 	}
-	public String getPROJECT_END_DATE() {
-		return PROJECT_END_DATE;
+	public void setProjectEndDate(String projectEndDate) {
+		ProjectEndDate = projectEndDate;
 	}
-	public void setPROJECT_END_DATE(String pROJECT_END_DATE) {
-		PROJECT_END_DATE = pROJECT_END_DATE;
+	public int getEmployeeCount() {
+		return EmployeeCount;
 	}
-	public int getEMPLOYEE_COUNT() {
-		return EMPLOYEE_COUNT;
+	public void setEmployeeCount(int employeeCount) {
+		EmployeeCount = employeeCount;
 	}
-	public void setEMPLOYEE_COUNT(int eMPLOYEE_COUNT) {
-		EMPLOYEE_COUNT = eMPLOYEE_COUNT;
-	}
+
 
 }

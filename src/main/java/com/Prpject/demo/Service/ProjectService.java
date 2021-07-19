@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Project.demo.dto.ProjectRequest;
 import com.Prpject.demo.dao.ProjectRepo;
 import com.Prpject.demo.model.Employee;
 import com.Prpject.demo.model.Project;
@@ -27,9 +28,16 @@ public class ProjectService {
 		return repo.findAll();
 	}
 
-	public void save(Project std) {
+	public void save(ProjectRequest projectRequest) {
 		LogManager.getLogger("Inside Findall");
-		repo.save(std);
+		//TODO : allow only manager to add and edit project
+		Project createNewProject = new Project();
+		createNewProject.setProjectName(projectRequest.getProjectName());
+		createNewProject.setProjectDescription(projectRequest.getProjectDescription());
+		createNewProject.setProjectStartDate(projectRequest.getProjectStartDate());
+		createNewProject.setProjectEndDate(projectRequest.getProjectEndDate());
+		createNewProject.setEmployeeCount(projectRequest.getEmployeeCount());
+		repo.save(createNewProject);
 	}
 
 	public Project get(Long id) {
@@ -47,4 +55,18 @@ public class ProjectService {
 		}
 	}
 
+	public void edit(ProjectRequest projectRequest) {
+		//TODO : allow only manager to add and edit project
+		if (Objects.nonNull(projectRequest)) {
+			Project createNewProject = new Project();
+			createNewProject.setProjectName(projectRequest.getProjectName());
+			createNewProject.setProjectDescription(projectRequest.getProjectDescription());
+			createNewProject.setProjectStartDate(projectRequest.getProjectStartDate());
+			createNewProject.setProjectEndDate(projectRequest.getProjectEndDate());
+			createNewProject.setEmployeeCount(projectRequest.getEmployeeCount());
+			repo.save(createNewProject);
+		}
+	}
+	
 }
+

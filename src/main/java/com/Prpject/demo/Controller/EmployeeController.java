@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Project.demo.dto.EmployeeRequest;
 import com.Prpject.demo.Service.EmployeeService;
 import com.Prpject.demo.model.Employee;
 
@@ -38,12 +40,8 @@ public class EmployeeController {
 
 	@PostMapping(value = "/{employeeEmail}")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String saveEmployee(@PathVariable("employeeEmail") String employeeEmail) {
-		logger.debug("Inside SaveEmployee");
-		Employee employee = new Employee();
-		employee.setEmployeeEmail(employeeEmail);
-		logger.debug("Setting EmployeeEmail");
-		service.save(employee);
+	public String saveEmployee(@RequestBody EmployeeRequest employeeRequest) {
+		service.save(employeeRequest);
 		logger.debug("After SavingEmployee");
 		return "Created";
 //		return "redirect:/";
@@ -60,20 +58,8 @@ public class EmployeeController {
 	
 	@PutMapping(value = "/{employeeEmail}")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String editEmployee(@PathVariable("employeeEmail") String employeeEmail) {
-		logger.debug("Inside editEmployee");
-		List<Employee> listEmployee = service.EmployeelistAll();
-		if(listEmployee.contains(employeeEmail)) {
-			service.edit(employeeEmail);
-		}
-		logger.debug("Edited Employee");
+	public String editEmployee(@RequestBody EmployeeRequest employeeRequest) {
+		service.edit(employeeRequest);
 		return "redirect:/";
 	}
-
-
-	/*
-	 * @PostMapping("/addTechnology")
-	 * 
-	 * @ResponseStatus }
-	 */
 }

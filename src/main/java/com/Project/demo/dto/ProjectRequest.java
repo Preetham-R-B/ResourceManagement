@@ -1,53 +1,30 @@
-package com.Prpject.demo.model;
+package com.Project.demo.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name="PROJECT")
-public class Project {
-	
-	@Id
-	@Column(name="PROJECT_ID")
-	private int ProjectId;
-	
-	@Column(name="PROJECT_NAME")
-	private String ProjectName;
-	
-	@Column(name="PROJECT_DESCRIPTION")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProjectRequest implements Serializable{
+
+	private long projectId;
+	private String projectName;
 	private String ProjectDescription;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="PROJECT_START_DATE")
 	private Date ProjectStartDate;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="PROJECT_END_DATE")
 	private Date ProjectEndDate;
-	
-	@Column(name="EMPLOYEE_COUNT")
 	private int EmployeeCount;
-	public Project() {
-		
-	
+	public long getProjectId() {
+		return projectId;
 	}
-	public int getProjectId() {
-		return ProjectId;
-	}
-	public void setProjectId(int projectId) {
-		ProjectId = projectId;
+	public void setProjectId(long projectId) {
+		this.projectId = projectId;
 	}
 	public String getProjectName() {
-		return ProjectName;
+		return projectName;
 	}
 	public void setProjectName(String projectName) {
-		ProjectName = projectName;
+		this.projectName = projectName;
 	}
 	public String getProjectDescription() {
 		return ProjectDescription;
@@ -73,6 +50,5 @@ public class Project {
 	public void setEmployeeCount(int employeeCount) {
 		EmployeeCount = employeeCount;
 	}
-
-
+	
 }

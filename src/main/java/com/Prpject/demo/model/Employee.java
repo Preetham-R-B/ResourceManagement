@@ -23,7 +23,7 @@ public class Employee {
 	private String employeeLastName;
 
 	@Column(name = "EMPLOYEE_PHONE_NUMBER")
-	private int employeePhoneNumber;
+	private long employeePhoneNumber;
 
 	@Column(name = "EMPLOYEE_EMAIL")
 	private String employeeEmail;
@@ -62,11 +62,11 @@ public class Employee {
 		this.employeeLastName = employeeLastName;
 	}
 
-	public int getEmployeePhoneNumber() {
+	public long getEmployeePhoneNumber() {
 		return employeePhoneNumber;
 	}
 
-	public void setEmployeePhoneNumber(int employeePhoneNumber) {
+	public void setEmployeePhoneNumber(long employeePhoneNumber) {
 		this.employeePhoneNumber = employeePhoneNumber;
 	}
 

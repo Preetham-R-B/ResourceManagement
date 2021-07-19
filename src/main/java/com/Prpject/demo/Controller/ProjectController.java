@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.Project.demo.dto.EmployeeRequest;
+import com.Project.demo.dto.ProjectRequest;
 import com.Prpject.demo.Service.ProjectService;
 import com.Prpject.demo.model.Employee;
 import com.Prpject.demo.model.Project;
@@ -40,22 +44,12 @@ public class ProjectController {
 //		return "index.html";
 
 	}
-
-	/*
-	 * @GetMapping("/newproject") public String addProject(Model model) {
-	 * model.addAttribute("Project", new Project()); return "new"; }
-	 */
-	
 	
 	
 	@PostMapping(value = "/{projectid}")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String saveProject(@PathVariable("projectid") int projectid) {
-		logger.debug("Inside Saveproject");
-		Project project = new Project();
-		project.setProjectId(projectid);
-		logger.debug("Setting projectid");
-		service.save(project);
+	public String saveProject(@RequestBody ProjectRequest projectRequest) {
+		service.save(projectRequest);
 		logger.debug("After projectid");
 		return "Created";
 //		return "redirect:/";
@@ -70,6 +64,18 @@ public class ProjectController {
 		return "redirect:/";
 	}
 
+	@PutMapping(value = "/{employeeEmail}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public String editProject(@RequestBody ProjectRequest projectRequest) {
+		service.edit(projectRequest);
+		return "redirect:/";
+	}
 	
+	@PostMapping(value = "/{projectid}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void assignEmployeetoProject() {
+		
+		
+	}
 
 }

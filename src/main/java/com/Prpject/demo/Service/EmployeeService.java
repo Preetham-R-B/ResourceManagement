@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Project.demo.dto.EmployeeRequest;
 import com.Prpject.demo.dao.EmployeeRepo;
 import com.Prpject.demo.model.Employee;
 
@@ -24,9 +25,16 @@ public class EmployeeService {
 		return repo.findAll();
 	}
 
-	public void save(Employee std) {
+	public void save(EmployeeRequest employeeRequest) {
 		LogManager.getLogger("Inside save");
-		repo.save(std);
+		Employee registerNewEmployee = new Employee();
+		registerNewEmployee.setEmployeeFirstName(employeeRequest.getFirstName());
+		registerNewEmployee.setEmployeeLastName(employeeRequest.getLastName());
+		registerNewEmployee.setEmployeeEmail(employeeRequest.getEmail());
+		registerNewEmployee.setEmployeePhoneNumber(employeeRequest.getPhoneNumber());
+		registerNewEmployee.setEmployeeDesignation(employeeRequest.getDesgination());
+		registerNewEmployee.setManager(employeeRequest.isManager());
+		repo.save(registerNewEmployee);
 	}
 
 	public Employee get(long id) {
@@ -45,11 +53,14 @@ public class EmployeeService {
 
 	}
 
-	public void edit(String employeeEmail) {
+	public void edit(EmployeeRequest employeeRequest) {
 		LogManager.getLogger("Inside edit");
-		Employee employee = repo.findByEmail(employeeEmail);
+		Employee employee = repo.findByEmail(employeeRequest.getEmail());
 		if (Objects.nonNull(employee)) {
-
+			//TODO : need to check password from db 
+			employee.setEmployeeFirstName(employeeRequest.getFirstName());
+			employee.setEmployeeLastName(employeeRequest.getLastName());
+			employee.setEmployeePhoneNumber(employeeRequest.getPhoneNumber());
 			LogManager.getLogger("After edit");
 			repo.save(employee);
 		}

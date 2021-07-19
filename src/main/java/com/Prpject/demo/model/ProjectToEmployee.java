@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PROJECT_ALLOCATION")
-public class ProjectTOEmployee {
+public class ProjectToEmployee {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID")

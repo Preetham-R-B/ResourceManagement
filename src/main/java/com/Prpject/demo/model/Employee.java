@@ -1,9 +1,11 @@
 package com.Prpject.demo.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,9 +20,8 @@ public class Employee implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@OneToMany(mappedBy = "EMPLOYEE")
 	@Column(name = "EMPLOYEE_ID", updatable = false, nullable = false)
-	private int employeeId;
+	private Long employeeId;
 
 	@Column(name = "EMPLOYEE_FIRST_NAME")
 	private String employeeFirstName;
@@ -29,9 +30,9 @@ public class Employee implements Serializable {
 	private String employeeLastName;
 
 	@Column(name = "EMPLOYEE_PHONE_NUMBER")
-	private long employeePhoneNumber;
+	private Long employeePhoneNumber;
 
-	@Column(name = "EMPLOYEE_EMAIL")
+	@Column(name = "EMPLOYEE_EMAIL", unique = true)
 	private String employeeEmail;
 
 	@Column(name = "EMPLOYEE_DESIGNATION")
@@ -40,11 +41,25 @@ public class Employee implements Serializable {
 	@Column(name = "IS_MANAGER")
 	private boolean isManager;
 
-	public int getEmployeeId() {
+	@Column(name = "PASSWORD")
+	private String password;
+
+	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+	private List<EmployeeToTechnology> technologies;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Long getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
 	}
 

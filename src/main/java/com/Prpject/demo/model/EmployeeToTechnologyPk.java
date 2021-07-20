@@ -14,7 +14,12 @@ public class EmployeeToTechnologyPk implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long employeeId;
-	private Long technologyIdLong;
+	private Long technologyId;
+	
+	public EmployeeToTechnologyPk(Long empId,Long techId){
+		this.employeeId = empId;
+		this.technologyId = techId;
+	}
 
 	public Long getEmployeeId() {
 		return employeeId;
@@ -24,12 +29,12 @@ public class EmployeeToTechnologyPk implements Serializable {
 		this.employeeId = employeeId;
 	}
 
-	public Long getTechnologyIdLong() {
-		return technologyIdLong;
+	public Long getTechnologyId() {
+		return technologyId;
 	}
 
-	public void setTechnologyIdLong(Long technologyIdLong) {
-		this.technologyIdLong = technologyIdLong;
+	public void setTechnologyId(Long technologyId) {
+		this.technologyId = technologyId;
 	}
 
 //	@ManyToOne(fetch = FetchType.LAZY/*, targetEntity = Employee.class*/)

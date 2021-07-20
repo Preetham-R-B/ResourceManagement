@@ -1,14 +1,12 @@
 package com.Prpject.demo.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,13 +18,29 @@ public class EmployeeToTechnology implements Serializable {
 	@EmbeddedId
 	private EmployeeToTechnologyPk employeeToTechnologypk;
 
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("EMPLOYEE_ID")
 	private Employee employee;
 
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("TECHNOLOGY_ID")
 	private Technology technology;
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Technology getTechnology() {
+		return technology;
+	}
+
+	public void setTechnology(Technology technology) {
+		this.technology = technology;
+	}
 
 	public EmployeeToTechnologyPk getEmployeeToTechnologypk() {
 		return employeeToTechnologypk;

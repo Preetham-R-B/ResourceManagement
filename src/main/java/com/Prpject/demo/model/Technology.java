@@ -11,22 +11,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TECHNOLOGY")
-public class Technology implements Serializable{
+public class Technology implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 //	@ManyToMany(mappedBy = "TECHNOLOGY")
 	@Column(name = "TECHNOLOGY_ID", updatable = false, nullable = false)
-	private int technologyId;
+	private Long technologyId;
 
 	@Column(name = "TECHNOLOGY_NAME")
 	private String technologyName;
 
-	public int getTechnologyId() {
+	public Long getTechnologyId() {
 		return technologyId;
 	}
 
-	public void setTechnologyId(int technologyId) {
+	public void setTechnologyId(Long technologyId) {
 		this.technologyId = technologyId;
 	}
 

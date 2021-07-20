@@ -12,10 +12,10 @@ import com.Prpject.demo.model.Technology;
 @Repository
 public interface TechnologyRepo extends JpaRepository<Technology,Long> {
 
-	Technology findByTechnologyName(String tech);
+	Technology findBytechnologyName(String tech);
 
-	@Query(value = "select t from Technology where t.technologyName like %:tech%")
-	List<Technology> findByTechnologyNameLike(String tech);
+	@Query(value = "select t from Technology t where t.technologyName like %:tech%")
+	List<Technology> findByTechnologyName(String tech);
 
 	/* public void deleteByTechnologyName(String tech); */
 }

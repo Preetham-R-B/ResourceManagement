@@ -1,19 +1,25 @@
 package com.Prpject.demo.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "EMPLOYEE")
-public class Employee {
+public class Employee implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "EMPLOYEE_ID", updatable = false, nullable = false)	
+//	@OneToMany(mappedBy = "EMPLOYEE")
+	@Column(name = "EMPLOYEE_ID", updatable = false, nullable = false)
 	private int employeeId;
 
 	@Column(name = "EMPLOYEE_FIRST_NAME")
@@ -33,10 +39,6 @@ public class Employee {
 
 	@Column(name = "IS_MANAGER")
 	private boolean isManager;
-
-	public Employee() {
-
-	}
 
 	public int getEmployeeId() {
 		return employeeId;

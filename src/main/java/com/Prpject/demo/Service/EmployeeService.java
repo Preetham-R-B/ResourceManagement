@@ -44,7 +44,7 @@ public class EmployeeService {
 
 	public void delete(String employeeEmail) {
 		LogManager.getLogger("Inside Delete");
-		Employee employee = repo.findByEmail(employeeEmail);
+		Employee employee = repo.findByemployeeEmail(employeeEmail);
 		if (Objects.nonNull(employee)) {
 
 			LogManager.getLogger("After Delete");
@@ -55,7 +55,7 @@ public class EmployeeService {
 
 	public void edit(EmployeeRequest employeeRequest) {
 		LogManager.getLogger("Inside edit");
-		Employee employee = repo.findByEmail(employeeRequest.getEmail());
+		Employee employee = repo.findByemployeeEmail(employeeRequest.getEmail());
 		if (Objects.nonNull(employee)) {
 			//TODO : need to check password from db 
 			employee.setEmployeeFirstName(employeeRequest.getFirstName());

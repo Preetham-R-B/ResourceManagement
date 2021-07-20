@@ -1,5 +1,7 @@
 package com.Prpject.demo.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +11,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TECHNOLOGY")
-public class Technology {
+public class Technology implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@ManyToMany(mappedBy = "TECHNOLOGY")
 	@Column(name = "TECHNOLOGY_ID", updatable = false, nullable = false)
 	private int technologyId;
 

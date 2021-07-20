@@ -23,30 +23,30 @@ public class TechnologyService {
 
 	private Logger logger = LogManager.getLogger(TechnologyService.class);
 
-	@Transactional(readOnly = true)
+//	@Transactional(readOnly = true)
 	public List<Technology> TechnologylistAll() {
 
 		LogManager.getLogger("Inside Findall");
 		return repo.findAll();
 	}
 
-	@Transactional(rollbackFor = SQLException.class, readOnly = false)
+//	@Transactional(rollbackFor = SQLException.class, readOnly = false)
 	public void save(Technology tech) {
 		LogManager.getLogger("Inside Save");
 		repo.save(tech);
 	}
 
-	@Transactional(readOnly = true)
+//	@Transactional(readOnly = true)
 	public Technology get(long id) {
 
 		LogManager.getLogger("Inside FindById");
 		return repo.findById(id).get();
 	}
 
-	@Transactional(rollbackFor = SQLException.class, readOnly = false)
+//	@Transactional(rollbackFor = SQLException.class, readOnly = false)
 	public void delete(String tech) {
 		LogManager.getLogger("Inside Delete");
-		Technology technology = repo.findByTechnologyName(tech);
+		Technology technology = repo.findBytechnologyName(tech);
 		if (Objects.nonNull(technology)) {
 
 			LogManager.getLogger("After Delete");
@@ -56,7 +56,7 @@ public class TechnologyService {
 
 	@Transactional(readOnly = true)
 	public List<Technology> findByName(String tech) {
-		return repo.findByTechnologyNameLike(tech);
+		return repo.findByTechnologyName(tech);
 		
 	}
 

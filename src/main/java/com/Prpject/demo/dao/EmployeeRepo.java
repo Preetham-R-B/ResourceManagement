@@ -9,6 +9,6 @@ import com.Prpject.demo.model.Employee;
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee,Long>{ 
 	
-	Employee findByEmail(String employeeEmail);
+	Employee findByemployeeEmail(String employeeEmail);
 
 }

@@ -13,14 +13,19 @@ import javax.persistence.Table;
 @Table(name = "TECHNOLOGY")
 public class Technology implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@ManyToMany(mappedBy = "TECHNOLOGY")
 	@Column(name = "TECHNOLOGY_ID", updatable = false, nullable = false)
 	private Long technologyId;
 
 	@Column(name = "TECHNOLOGY_NAME")
 	private String technologyName;
+
+	public Technology(String tech) {
+		this.technologyName = tech;
+	}
 
 	public Long getTechnologyId() {
 		return technologyId;

@@ -16,14 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.Project.demo.dto.EmployeeRequest;
+import com.Prpject.demo.Constants;
 import com.Prpject.demo.Service.EmployeeService;
 import com.Prpject.demo.model.Employee;
 
 @RestController()
 @RequestMapping("/employee")
-public class EmployeeController {
+public class EmployeeController extends BaseController {
 
 	@Autowired
 	private EmployeeService service;
@@ -32,8 +34,9 @@ public class EmployeeController {
 
 	@GetMapping()
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<Employee> EmployeeView(@RequestHeader("logged-in-user") String useremail) {
+	public List<Employee> EmployeeView(@RequestHeader(Constants.loggedInUserEmail) String useremail) {
 		logger.debug("Inside EmployeeView");
+		checkemail(useremail);
 		List<Employee> listEmployee = service.EmployeelistAll();
 		logger.debug("Exiting EmployeeView");
 		return listEmployee;
@@ -54,6 +57,7 @@ public class EmployeeController {
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public String deleteEmployee(@RequestHeader("logged-in-user") String useremail) {
 		logger.debug("Inside deleteEmployee");
+		checkemail(useremail);
 		service.delete(useremail);
 		logger.debug("Deleted Employee");
 		return "redirect:/";
@@ -61,7 +65,8 @@ public class EmployeeController {
 
 	@PutMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String editEmployee(@RequestBody EmployeeRequest employeeRequest, @RequestHeader("logged-in-user") String useremail) {
+	public String editEmployee(@RequestBody EmployeeRequest employeeRequest, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
+		checkemail(useremail);
 		if (useremail.equals(employeeRequest.getEmail())) {
 			service.edit(employeeRequest);
 			return "Sucess";
@@ -73,7 +78,8 @@ public class EmployeeController {
 
 	@PostMapping(value = "/addTechnology")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void addTechology(@RequestParam(name = "name") String techName, @RequestHeader("logged-in-user") String useremail) {
+	public void addTechology(@RequestParam(name = "name") String techName, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
+		checkemail(useremail);
 		service.addTech(techName, useremail);
 	}
 
@@ -82,8 +88,9 @@ public class EmployeeController {
 	public String loginUser(@RequestBody EmployeeRequest employeeRequest) {
 		if (service.authenticate(employeeRequest)) {
 			return employeeRequest.getEmail();
-		}
-		else
-			return "Wrong Credentials";
+		} else
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		// return "Wrong Credentials";
 	}
+
 }

@@ -12,13 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.Prpject.demo.Constants;
 import com.Prpject.demo.dao.EmployeeRepo;
 import com.Prpject.demo.dao.TechnologyRepo;
 import com.Prpject.demo.model.Technology;
 
 @Service
-public class TechnologyService {
+public class TechnologyService extends BaseService {
 
 	@Autowired
 	private TechnologyRepo repo;
@@ -36,7 +35,7 @@ public class TechnologyService {
 
 	@Transactional(rollbackFor = SQLException.class, readOnly = false)
 	public void createTechnology(String tech, String useremail) {
-		if (empRepo.findByemployeeEmail(useremail).getEmployeeEmail().equals(Constants.managerRole)) {
+		if (checkIfManager(useremail)) {
 			LogManager.getLogger("Inside Save");
 			Technology technology = new Technology(tech);
 			repo.save(technology);
@@ -46,15 +45,15 @@ public class TechnologyService {
 		}
 	}
 
-	@Transactional(readOnly = true)
-	public Technology get(long id) {
-		// LogManager.getLogger("Inside FindById");
-		return repo.findById(id).get();
-	}
+	// @Transactional(readOnly = true)
+	// public Technology get(long id) {
+	// // LogManager.getLogger("Inside FindById");
+	// return repo.findById(id).get();
+	// }
 
 	@Transactional(rollbackFor = SQLException.class, readOnly = false)
 	public void delete(String tech, String useremail) {
-		if (empRepo.findByemployeeEmail(useremail).getEmployeeDesignation().equals(Constants.managerRole)) {
+		if (checkIfManager(useremail)) {
 			// LogManager.getLogger("Inside Delete");
 			Technology technology = repo.findBytechnologyName(tech);
 			if (Objects.nonNull(technology)) {

@@ -1,5 +1,6 @@
 package com.Prpject.demo.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.Project.demo.dto.EmployeeRequest;
@@ -20,7 +22,7 @@ import com.Prpject.demo.model.EmployeeToTechnologyPk;
 import com.Prpject.demo.model.Technology;
 
 @Service
-public class EmployeeService {
+public class EmployeeService extends BaseService {
 
 	@Autowired
 	private EmployeeRepo repo;
@@ -38,6 +40,7 @@ public class EmployeeService {
 		return repo.findAll();
 	}
 
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
 	public void save(EmployeeRequest employeeRequest) {
 		logger.debug("Inside employee save");
 		// TODO: need to hash and salt password
@@ -58,11 +61,13 @@ public class EmployeeService {
 
 	}
 
+	@Transactional(readOnly = true)
 	public Employee get(long id) {
 		LogManager.getLogger("Inside FindById");
 		return repo.findById(id).get();
 	}
 
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
 	public void delete(String employeeEmail) {
 		LogManager.getLogger("Inside Delete");
 		Employee employee = repo.findByemployeeEmail(employeeEmail);
@@ -74,6 +79,7 @@ public class EmployeeService {
 
 	}
 
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
 	public void edit(EmployeeRequest employeeRequest) {
 		LogManager.getLogger("Inside edit");
 		Employee employee = repo.findByemployeeEmail(employeeRequest.getEmail());
@@ -110,6 +116,7 @@ public class EmployeeService {
 		}
 	}
 
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
 	public void addTech(String techName, String useremail) {
 		Technology technology = techRepo.findBytechnologyName(techName);
 		Employee emp = repo.findByemployeeEmail(useremail);

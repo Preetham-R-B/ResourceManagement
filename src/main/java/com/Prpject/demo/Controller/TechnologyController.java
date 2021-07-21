@@ -45,11 +45,8 @@ public class TechnologyController extends BaseController {
 	public String createTechnology(@PathVariable("tech") String tech, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
 		checkemail(useremail);
 		logger.debug("Inside SaveTechnology");
-		if (!useremail.isEmpty()) {
-			service.createTechnology(tech, useremail);
-			return "Sucess";
-		} else
-			return "Error";
+		service.createTechnology(tech, useremail);
+		return "Sucess";
 		// return "redirect:/";
 	}
 

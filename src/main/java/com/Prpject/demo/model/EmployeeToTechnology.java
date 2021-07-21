@@ -1,29 +1,28 @@
 package com.Prpject.demo.model;
 
-import java.io.Serializable;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "EMPLOYEE_TECHNOLOGY")
-public class EmployeeToTechnology implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class EmployeeToTechnology {
 
 	@EmbeddedId
-	private EmployeeToTechnologyPk employeeToTechnologypk;
+	EmployeeToTechnologyPk employeeToTechnologyPk;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("EMPLOYEE_ID")
+	@MapsId("employeeId")
+	@JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
 	private Employee employee;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("TECHNOLOGY_ID")
+	@MapsId("technologyId")
+	@JoinColumn(name = "TECHNOLOGY_ID", referencedColumnName = "TECHNOLOGY_ID")
 	private Technology technology;
 
 	public Employee getEmployee() {
@@ -42,12 +41,7 @@ public class EmployeeToTechnology implements Serializable {
 		this.technology = technology;
 	}
 
-	public EmployeeToTechnologyPk getEmployeeToTechnologypk() {
-		return employeeToTechnologypk;
-	}
-
-	public void setEmployeeToTechnologypk(EmployeeToTechnologyPk employeeToTechnologypk) {
-		this.employeeToTechnologypk = employeeToTechnologypk;
+	public EmployeeToTechnology() {
 	}
 
 }

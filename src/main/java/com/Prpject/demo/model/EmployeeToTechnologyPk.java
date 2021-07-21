@@ -2,23 +2,20 @@ package com.Prpject.demo.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Embeddable
 public class EmployeeToTechnologyPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "EMPLOYEE_ID")
 	private Long employeeId;
+	@Column(name = "TECHNOLOGY_ID")
 	private Long technologyId;
-	
-	public EmployeeToTechnologyPk(Long empId,Long techId){
-		this.employeeId = empId;
-		this.technologyId = techId;
+
+	public EmployeeToTechnologyPk() {
 	}
 
 	public Long getEmployeeId() {
@@ -37,28 +34,35 @@ public class EmployeeToTechnologyPk implements Serializable {
 		this.technologyId = technologyId;
 	}
 
-//	@ManyToOne(fetch = FetchType.LAZY/*, targetEntity = Employee.class*/)
-//	@JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "EMPLOYEE_ID")
-////	@Column(name = "EMPLOYEE_ID")
-//	private Employee employee;
-//
-//	@ManyToMany(fetch = FetchType.LAZY/*, targetEntity = Technology.class*/)
-//	@JoinColumn(name = "TECHNOLOGY_ID", referencedColumnName = "TECHNOLOGY_ID")
-//	private Technology technology;
-//
-//	public Employee getEmployee() {
-//		return employee;
-//	}
-//
-//	public void setEmployee(Employee employee) {
-//		this.employee = employee;
-//	}
-//
-//	public Technology getTechnology() {
-//		return technology;
-//	}
-//
-//	public void setTechnology(Technology technology) {
-//		this.technology = technology;
-//	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
+		result = prime * result + ((technologyId == null) ? 0 : technologyId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EmployeeToTechnologyPk other = (EmployeeToTechnologyPk) obj;
+		if (employeeId == null) {
+			if (other.employeeId != null)
+				return false;
+		} else if (!employeeId.equals(other.employeeId))
+			return false;
+		if (technologyId == null) {
+			if (other.technologyId != null)
+				return false;
+		} else if (!technologyId.equals(other.technologyId))
+			return false;
+		return true;
+	}
+
 }

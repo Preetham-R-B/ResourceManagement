@@ -3,6 +3,7 @@ package com.Project.demo.dto;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeeRequest implements Serializable {
@@ -14,6 +15,7 @@ public class EmployeeRequest implements Serializable {
 	private String email;
 	private long phoneNumber;
 	private String desgination;
+	@JsonProperty
 	private boolean isManager;
 	private String password;
 	private String oldPassword;

@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.Project.demo.dto.EmployeeRequest;
+import com.Prpject.demo.Constants;
 import com.Prpject.demo.dao.EmployeeRepo;
 import com.Prpject.demo.dao.EmployeeToTechnologyRepo;
 import com.Prpject.demo.dao.TechnologyRepo;
 import com.Prpject.demo.model.Employee;
 import com.Prpject.demo.model.EmployeeToTechnology;
-import com.Prpject.demo.model.EmployeeToTechnologyPk;
 import com.Prpject.demo.model.Technology;
 
 @Service
@@ -50,8 +50,13 @@ public class EmployeeService extends BaseService {
 			registerNewEmployee.setEmployeeLastName(employeeRequest.getLastName());
 			registerNewEmployee.setEmployeeEmail(employeeRequest.getEmail());
 			registerNewEmployee.setEmployeePhoneNumber(employeeRequest.getPhoneNumber());
-			registerNewEmployee.setEmployeeDesignation(employeeRequest.getDesgination());
-			registerNewEmployee.setManager(employeeRequest.isManager());
+			if (employeeRequest.isManager()) {
+				registerNewEmployee.setEmployeeDesignation(Constants.managerRole);
+				registerNewEmployee.setManager(true);
+			} else {
+				registerNewEmployee.setEmployeeDesignation(employeeRequest.getDesgination());
+				registerNewEmployee.setManager(employeeRequest.isManager());
+			}
 			registerNewEmployee.setPassword(employeeRequest.getPassword());
 			repo.save(registerNewEmployee);
 		} catch (Exception e) {
@@ -121,8 +126,6 @@ public class EmployeeService extends BaseService {
 		Technology technology = techRepo.findBytechnologyName(techName);
 		Employee emp = repo.findByemployeeEmail(useremail);
 		EmployeeToTechnology et = new EmployeeToTechnology();
-		EmployeeToTechnologyPk etpk = new EmployeeToTechnologyPk(emp.getEmployeeId(), technology.getTechnologyId());
-		et.setEmployeeToTechnologypk(etpk);
 		et.setEmployee(emp);
 		et.setTechnology(technology);
 		etRepo.save(et);

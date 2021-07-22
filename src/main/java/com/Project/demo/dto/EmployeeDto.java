@@ -1,12 +1,13 @@
 package com.Project.demo.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EmployeeRequest implements Serializable {
+public class EmployeeDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private long employeeId;
@@ -20,6 +21,7 @@ public class EmployeeRequest implements Serializable {
 	private String password;
 	private String oldPassword;
 	private String newPassowrd;
+	private List<String> technologies;
 
 	public long getEmployeeId() {
 		return employeeId;
@@ -99,6 +101,14 @@ public class EmployeeRequest implements Serializable {
 
 	public void setNewPassowrd(String newPassowrd) {
 		this.newPassowrd = newPassowrd;
+	}
+
+	public List<String> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(List<String> technologies) {
+		this.technologies = technologies;
 	}
 
 }

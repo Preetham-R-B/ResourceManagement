@@ -3,6 +3,7 @@ package com.Prpject.demo.Service;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,13 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.Project.demo.dto.EmployeeRequest;
+import com.Project.demo.dto.EmployeeDto;
 import com.Prpject.demo.Constants;
 import com.Prpject.demo.dao.EmployeeRepo;
 import com.Prpject.demo.dao.EmployeeToTechnologyRepo;
 import com.Prpject.demo.dao.TechnologyRepo;
 import com.Prpject.demo.model.Employee;
 import com.Prpject.demo.model.EmployeeToTechnology;
+import com.Prpject.demo.model.EmployeeToTechnologyPk;
 import com.Prpject.demo.model.Technology;
 
 @Service
@@ -35,13 +37,18 @@ public class EmployeeService extends BaseService {
 
 	private Logger logger = LogManager.getLogger(EmployeeService.class);
 
-	public List<Employee> EmployeelistAll() {
+	public List<EmployeeDto> getEmployeelistAll() {
 		LogManager.getLogger("Inside Findall");
-		return repo.findAll();
+		List<Employee> employees = repo.findAll();
+		List<EmployeeDto> returnList = null;
+		for (Employee emp : employees) {
+			returnList.add(assingEmployeetoDto(emp));
+		}
+		return returnList;
 	}
 
 	@Transactional(readOnly = false, rollbackFor = SQLException.class)
-	public void save(EmployeeRequest employeeRequest) {
+	public void save(EmployeeDto employeeRequest) {
 		logger.debug("Inside employee save");
 		// TODO: need to hash and salt password
 		try {
@@ -77,7 +84,6 @@ public class EmployeeService extends BaseService {
 		LogManager.getLogger("Inside Delete");
 		Employee employee = repo.findByemployeeEmail(employeeEmail);
 		if (Objects.nonNull(employee)) {
-
 			LogManager.getLogger("After Delete");
 			repo.delete(employee);
 		}
@@ -85,7 +91,7 @@ public class EmployeeService extends BaseService {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = SQLException.class)
-	public void edit(EmployeeRequest employeeRequest) {
+	public void edit(EmployeeDto employeeRequest) {
 		LogManager.getLogger("Inside edit");
 		Employee employee = repo.findByemployeeEmail(employeeRequest.getEmail());
 		if (Objects.nonNull(employee)) {
@@ -104,7 +110,7 @@ public class EmployeeService extends BaseService {
 
 	}
 
-	private boolean validatePassword(EmployeeRequest employeeRequest, Employee employee) {
+	private boolean validatePassword(EmployeeDto employeeRequest, Employee employee) {
 		try {
 			if (employeeRequest.getOldPassword().equals(employeeRequest.getNewPassowrd()))
 				return false;
@@ -126,17 +132,50 @@ public class EmployeeService extends BaseService {
 		Technology technology = techRepo.findBytechnologyName(techName);
 		Employee emp = repo.findByemployeeEmail(useremail);
 		EmployeeToTechnology et = new EmployeeToTechnology();
+		EmployeeToTechnologyPk epk = new EmployeeToTechnologyPk(emp.getEmployeeId(), technology.getTechnologyId());
+		et.setEmployeeToTechnologyPk(epk);
 		et.setEmployee(emp);
 		et.setTechnology(technology);
 		etRepo.save(et);
 	}
 
-	public boolean authenticate(EmployeeRequest employeeRequest) {
+	@Transactional(readOnly = true)
+	public boolean authenticate(EmployeeDto employeeRequest) {
 		Employee emp = repo.findByemployeeEmail(employeeRequest.getEmail());
 		if (Objects.isNull(emp))
 			return false;
 		if (!employeeRequest.getPassword().equals(emp.getPassword()))
 			return false;
 		return true;
+	}
+
+	@Transactional(readOnly = true)
+	public EmployeeDto getEmployeeDetails(String useremail) {
+		Employee emp = repo.findByemployeeEmail(useremail);
+		return assingEmployeetoDto(emp);
+	}
+
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
+	public void removeTech(String techName, String useremail) {
+		Employee emp = repo.findByemployeeEmail(useremail);
+		emp.getTechnologies().forEach(x -> {
+			if (x.getTechnology().getTechnologyName().equals(techName)) {
+				etRepo.deleteById(new EmployeeToTechnologyPk(emp.getEmployeeId(), x.getTechnology().getTechnologyId()));
+			}
+		});
+	}
+
+	public EmployeeDto assingEmployeetoDto(Employee emp) {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmployeeId(emp.getEmployeeId());
+		employeeDto.setFirstName(emp.getEmployeeFirstName());
+		employeeDto.setLastName(emp.getEmployeeLastName());
+		employeeDto.setDesgination(emp.getEmployeeDesignation());
+		employeeDto.setEmail(emp.getEmployeeEmail());
+		employeeDto.setManager(emp.isManager());
+		employeeDto.setPhoneNumber(emp.getEmployeePhoneNumber());
+		List<String> technologies = emp.getTechnologies().stream().map(x -> x.getTechnology().getTechnologyName()).collect(Collectors.toList());
+		employeeDto.setTechnologies(technologies);
+		return employeeDto;
 	}
 }

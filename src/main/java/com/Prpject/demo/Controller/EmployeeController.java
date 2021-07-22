@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.Project.demo.dto.EmployeeRequest;
+import com.Project.demo.dto.EmployeeDto;
 import com.Prpject.demo.Constants;
 import com.Prpject.demo.Service.EmployeeService;
-import com.Prpject.demo.model.Employee;
 
 @RestController()
 @RequestMapping("/employee")
@@ -34,10 +33,10 @@ public class EmployeeController extends BaseController {
 
 	@GetMapping()
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<Employee> EmployeeView(@RequestHeader(Constants.loggedInUserEmail) String useremail) {
+	public List<EmployeeDto> EmployeeView(@RequestHeader(Constants.loggedInUserEmail) String useremail) {
 		logger.debug("Inside EmployeeView");
 		checkemail(useremail);
-		List<Employee> listEmployee = service.EmployeelistAll();
+		List<EmployeeDto> listEmployee = service.getEmployeelistAll();
 		logger.debug("Exiting EmployeeView");
 		return listEmployee;
 		// return "index.html";
@@ -46,7 +45,7 @@ public class EmployeeController extends BaseController {
 
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String createEmployee(@RequestBody EmployeeRequest employeeRequest) {
+	public String createEmployee(@RequestBody EmployeeDto employeeRequest) {
 		service.save(employeeRequest);
 		logger.debug("After Saving Employee");
 		return "Created";
@@ -65,7 +64,7 @@ public class EmployeeController extends BaseController {
 
 	@PutMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String editEmployee(@RequestBody EmployeeRequest employeeRequest, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
+	public String editEmployee(@RequestBody EmployeeDto employeeRequest, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
 		checkemail(useremail);
 		if (useremail.equals(employeeRequest.getEmail())) {
 			service.edit(employeeRequest);
@@ -85,7 +84,7 @@ public class EmployeeController extends BaseController {
 
 	@GetMapping(value = "/login")
 	@ResponseStatus(code = HttpStatus.OK)
-	public String loginUser(@RequestBody EmployeeRequest employeeRequest) {
+	public String loginUser(@RequestBody EmployeeDto employeeRequest) {
 		if (service.authenticate(employeeRequest)) {
 			return employeeRequest.getEmail();
 		} else
@@ -93,4 +92,18 @@ public class EmployeeController extends BaseController {
 		// return "Wrong Credentials";
 	}
 
+	@GetMapping(value = "/details")
+	@ResponseStatus(code = HttpStatus.OK)
+	public EmployeeDto getEmployeeDetails(@RequestHeader(Constants.loggedInUserEmail) String useremail) {
+		checkemail(useremail);
+		return service.getEmployeeDetails(useremail);
+	}
+
+	@DeleteMapping(value = "/removeTechnology")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void removeTechnology(@RequestHeader(Constants.loggedInUserEmail) String useremail,
+			@RequestParam(name = "name") String technolgyName) {
+		checkemail(useremail);
+		service.removeTech(technolgyName, useremail);
+	}
 }

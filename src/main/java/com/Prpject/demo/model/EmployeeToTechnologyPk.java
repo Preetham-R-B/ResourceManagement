@@ -18,6 +18,11 @@ public class EmployeeToTechnologyPk implements Serializable {
 	public EmployeeToTechnologyPk() {
 	}
 
+	public EmployeeToTechnologyPk(Long employeeId, Long technologyId) {
+		this.employeeId = employeeId;
+		this.technologyId = technologyId;
+	}
+
 	public Long getEmployeeId() {
 		return employeeId;
 	}

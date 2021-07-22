@@ -19,7 +19,7 @@ public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EMPLOYEE_ID", updatable = false, nullable = false)
 	private Long employeeId;
 
@@ -44,8 +44,17 @@ public class Employee implements Serializable {
 	@Column(name = "PASSWORD")
 	private String password;
 
+	// @JsonIgnore
 	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
 	private List<EmployeeToTechnology> technologies;
+
+	public List<EmployeeToTechnology> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(List<EmployeeToTechnology> technologies) {
+		this.technologies = technologies;
+	}
 
 	public String getPassword() {
 		return password;

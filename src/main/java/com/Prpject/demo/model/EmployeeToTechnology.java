@@ -25,6 +25,14 @@ public class EmployeeToTechnology {
 	@JoinColumn(name = "TECHNOLOGY_ID", referencedColumnName = "TECHNOLOGY_ID")
 	private Technology technology;
 
+	public EmployeeToTechnologyPk getEmployeeToTechnologyPk() {
+		return employeeToTechnologyPk;
+	}
+
+	public void setEmployeeToTechnologyPk(EmployeeToTechnologyPk employeeToTechnologyPk) {
+		this.employeeToTechnologyPk = employeeToTechnologyPk;
+	}
+
 	public Employee getEmployee() {
 		return employee;
 	}

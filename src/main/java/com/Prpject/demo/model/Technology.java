@@ -12,20 +12,25 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "TECHNOLOGY")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Technology implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "TECHNOLOGY_ID", updatable = false, nullable = false)
 	private Long technologyId;
 
 	@Column(name = "TECHNOLOGY_NAME", unique = true)
 	private String technologyName;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "technology", fetch = FetchType.LAZY)
 	List<EmployeeToTechnology> employees;
 

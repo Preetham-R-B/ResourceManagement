@@ -176,4 +176,11 @@ public class EmployeeService extends BaseService {
 		employeeDto.setProjects(projects);
 		return employeeDto;
 	}
+
+	public List<EmployeeDto> getEmployeesByFirstName(String useremail, String name) {
+		if (checkIfManager(useremail)) {
+			return employeeRepo.findByFirstName(name).stream().map(x -> assingEmployeetoDto(x)).collect(Collectors.toList());
+		}
+		return null;
+	}
 }

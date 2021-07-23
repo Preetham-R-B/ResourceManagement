@@ -28,6 +28,13 @@ public class EmployeeToProject {
 	public EmployeeToProject() {
 	}
 
+	public EmployeeToProject(EmployeeToProjectPK employeeToProjectPK, Project project, Employee employee) {
+		super();
+		this.employeeToProjectPK = employeeToProjectPK;
+		this.project = project;
+		this.employee = employee;
+	}
+
 	public Project getProject() {
 		return project;
 	}

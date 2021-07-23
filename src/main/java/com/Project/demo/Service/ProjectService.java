@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.Project.demo.dao.EmployeeToProjectRepo;
 import com.Project.demo.dao.ProjectRepo;
 import com.Project.demo.dao.TechnologyRepo;
 import com.Project.demo.dao.TechnologyToProjectRepo;
 import com.Project.demo.dto.ProjectDto;
+import com.Project.demo.model.EmployeeToProject;
+import com.Project.demo.model.EmployeeToProjectPK;
 import com.Project.demo.model.Project;
 import com.Project.demo.model.Technology;
 import com.Project.demo.model.TechnologyToProject;
@@ -33,6 +36,9 @@ public class ProjectService extends BaseService {
 
 	@Autowired
 	private TechnologyToProjectRepo technologyToProjectRepo;
+
+	@Autowired
+	private EmployeeToProjectRepo employeeToProjectRepo;
 
 	private Logger logger = LogManager.getLogger(ProjectService.class);
 
@@ -123,8 +129,6 @@ public class ProjectService extends BaseService {
 	public void removeTechnologyFromProject(String useremail, Long projectId, String technologyName) {
 		if (checkIfManager(useremail) && checkIfProjectOwner(projectId, useremail)) {
 			Project project = projectRepo.findById(projectId).get();
-			// Technology technology = technologyRepo.findBytechnologyName(technologyName);
-			// technologyToProjectRepo.deleteById(new TechnologyToProjectPK(projectId, technology.getTechnologyId()));
 			project.getTechnologies().stream().forEach(x -> {
 				if (x.getTechnology().getTechnologyName().equals(technologyName)) {
 					technologyToProjectRepo.deleteById(new TechnologyToProjectPK(x.getTechnology().getTechnologyId(), projectId));
@@ -168,5 +172,20 @@ public class ProjectService extends BaseService {
 	@Transactional(readOnly = true)
 	public List<ProjectDto> getProjectDetailsByProjectName(String useremail, String projectName) {
 		return projectRepo.findByEmailAndProjectName(useremail, projectName).stream().map(x -> assignProjectToDto(x)).collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
+	public void addEmployeeToProject(String useremail, Long projectId, Long empId) {
+		if (checkIfManager(useremail) && checkIfProjectOwner(projectId, useremail)) {
+			employeeToProjectRepo.save(new EmployeeToProject(new EmployeeToProjectPK(empId, projectId), projectRepo.findById(projectId).get(),
+					employeeRepo.findById(empId).get()));
+		}
+	}
+
+	@Transactional(readOnly = false, rollbackFor = SQLException.class)
+	public void removeEmployeeToProject(String useremail, Long projectId, Long empId) {
+		if (checkIfManager(useremail) && checkIfProjectOwner(projectId, useremail)) {
+			employeeToProjectRepo.deleteById(new EmployeeToProjectPK(empId, projectId));
+		}
 	}
 }

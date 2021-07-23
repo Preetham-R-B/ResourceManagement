@@ -101,9 +101,14 @@ public class EmployeeController extends BaseController {
 
 	@DeleteMapping(value = "/removeTechnology")
 	@ResponseStatus(code = HttpStatus.OK)
-	public void removeTechnology(@RequestHeader(Constants.loggedInUserEmail) String useremail,
-			@RequestParam(name = "name") String technolgyName) {
+	public void removeTechnology(@RequestHeader(Constants.loggedInUserEmail) String useremail, @RequestParam(name = "name") String technolgyName) {
 		checkemail(useremail);
 		service.removeTech(technolgyName, useremail);
+	}
+
+	@GetMapping(value = "/details/{firstName}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<EmployeeDto> getEmployeesByFirstName(@RequestHeader(Constants.loggedInUserEmail) String useremail, String name) {
+		return service.getEmployeesByFirstName(useremail, name);
 	}
 }

@@ -89,8 +89,7 @@ public class ProjectController extends BaseController {
 
 	@GetMapping(value = "/{projectId}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ProjectDto getProjectDetailsByProjectId(@RequestHeader(Constants.loggedInUserEmail) String useremail,
-			@PathVariable("projectId") Long projectId) {
+	public ProjectDto getProjectDetailsByProjectId(@RequestHeader(Constants.loggedInUserEmail) String useremail, @PathVariable("projectId") Long projectId) {
 		checkemail(useremail);
 		return service.getProjectDetailsByProjectId(useremail, projectId);
 	}
@@ -101,5 +100,21 @@ public class ProjectController extends BaseController {
 			@PathVariable("projectName") String projectName) {
 		checkemail(useremail);
 		return service.getProjectDetailsByProjectName(useremail, projectName);
+	}
+
+	@PostMapping("/addEmployee")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void addEmployeeToProject(@RequestHeader(Constants.loggedInUserEmail) String useremail, @RequestParam("projectId") Long projectId,
+			@RequestParam("employeeId") Long empId) {
+		checkemail(useremail);
+		service.addEmployeeToProject(useremail, projectId, empId);
+	}
+
+	@DeleteMapping("/removeEmployee")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void removeEmployeeToProject(@RequestHeader(Constants.loggedInUserEmail) String useremail, @RequestParam("projectId") Long projectId,
+			@RequestParam("employeeId") Long empId) {
+		checkemail(useremail);
+		service.removeEmployeeToProject(useremail, projectId, empId);
 	}
 }

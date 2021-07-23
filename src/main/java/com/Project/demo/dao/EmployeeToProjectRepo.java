@@ -7,6 +7,6 @@ import com.Project.demo.model.EmployeeToProject;
 import com.Project.demo.model.EmployeeToProjectPK;
 
 @Repository
-public interface EmployeeToPojectRepo extends JpaRepository<EmployeeToProject, EmployeeToProjectPK> {
+public interface EmployeeToProjectRepo extends JpaRepository<EmployeeToProject, EmployeeToProjectPK> {
 
 }

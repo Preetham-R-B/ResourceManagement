@@ -22,6 +22,7 @@ public class EmployeeDto implements Serializable {
 	private String oldPassword;
 	private String newPassowrd;
 	private List<String> technologies;
+	private List<String> projects;
 
 	public long getEmployeeId() {
 		return employeeId;
@@ -110,5 +111,15 @@ public class EmployeeDto implements Serializable {
 	public void setTechnologies(List<String> technologies) {
 		this.technologies = technologies;
 	}
+
+	public List<String> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<String> projects) {
+		this.projects = projects;
+	}
+
+
 
 }

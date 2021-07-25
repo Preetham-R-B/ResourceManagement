@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.Project.demo.Service.EmployeeService;
 import com.Project.demo.dto.EmployeeDto;
 
 @RestController()
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/employee")
 public class EmployeeController extends BaseController {
 
@@ -45,10 +47,10 @@ public class EmployeeController extends BaseController {
 
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String createEmployee(@RequestBody EmployeeDto employeeRequest) {
+	public EmployeeDto createEmployee(@RequestBody EmployeeDto employeeRequest) {
 		service.save(employeeRequest);
 		logger.debug("After Saving Employee");
-		return "Created";
+		return employeeRequest;
 		// return "redirect:/";
 	}
 
@@ -82,11 +84,11 @@ public class EmployeeController extends BaseController {
 		service.addTech(techName, useremail);
 	}
 
-	@GetMapping(value = "/login")
+	@PostMapping(value = "/login")
 	@ResponseStatus(code = HttpStatus.OK)
-	public String loginUser(@RequestBody EmployeeDto employeeRequest) {
+	public EmployeeDto loginUser(@RequestBody EmployeeDto employeeRequest) {
 		if (service.authenticate(employeeRequest)) {
-			return employeeRequest.getEmail();
+			return employeeRequest;
 		} else
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		// return "Wrong Credentials";

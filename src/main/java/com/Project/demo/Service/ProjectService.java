@@ -143,7 +143,7 @@ public class ProjectService extends BaseService {
 	private ProjectDto assignProjectToDto(Project project) {
 		if (Objects.nonNull(project)) {
 			ProjectDto p = new ProjectDto();
-			p.setCreatedBy(project.getEmployee());
+			p.setCreatedBy(project.getEmployee().getEmployeeEmail());
 			p.setEmployeeCount(project.getEmployeeCount());
 			p.setProjectDescription(project.getProjectDescription());
 			p.setProjectEndDate(project.getProjectEndDate());
@@ -176,10 +176,20 @@ public class ProjectService extends BaseService {
 
 	@Transactional(readOnly = false, rollbackFor = SQLException.class)
 	public void addEmployeeToProject(String useremail, Long projectId, Long empId) {
-		if (checkIfManager(useremail) && checkIfProjectOwner(projectId, useremail)) {
+		if (checkIfManager(useremail) && checkIfProjectOwner(projectId, useremail) && checkIfAllowed(projectId)) {
 			employeeToProjectRepo.save(new EmployeeToProject(new EmployeeToProjectPK(empId, projectId), projectRepo.findById(projectId).get(),
 					employeeRepo.findById(empId).get()));
+			Project p = projectRepo.findById(projectId).get();
+			p.setEmployeeCount(p.getEmployeeCount() + 1);
+			projectRepo.save(p);
 		}
+	}
+
+	private boolean checkIfAllowed(Long projectId) {
+		Project p = projectRepo.findById(projectId).get();
+		if (p.getEmployeeCount() > 0)
+			return true;
+		return false;
 	}
 
 	@Transactional(readOnly = false, rollbackFor = SQLException.class)

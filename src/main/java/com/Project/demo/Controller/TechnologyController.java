@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Project.demo.Constants;
 import com.Project.demo.Service.TechnologyService;
-import com.Project.demo.model.Technology;
+import com.Project.demo.dto.TechnologyDto;
 
 @RestController()
 @RequestMapping("/technology")
@@ -30,10 +30,10 @@ public class TechnologyController extends BaseController {
 
 	@GetMapping()
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<Technology> TechnologyView(@RequestHeader(Constants.loggedInUserEmail) String useremail) {
+	public List<TechnologyDto> TechnologyView(@RequestHeader(Constants.loggedInUserEmail) String useremail) {
 		checkemail(useremail);
 		logger.debug("Inside TechnologyView");
-		List<Technology> listTechnology = service.TechnologylistAll();
+		List<TechnologyDto> listTechnology = service.TechnologylistAll();
 		logger.debug("Exiting TechnologyView");
 		return listTechnology;
 		// return "index.html";
@@ -62,7 +62,7 @@ public class TechnologyController extends BaseController {
 
 	@GetMapping(value = "/{tech}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<Technology> technologyViewByName(@PathVariable("tech") String tech, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
+	public List<TechnologyDto> technologyViewByName(@PathVariable("tech") String tech, @RequestHeader(Constants.loggedInUserEmail) String useremail) {
 		checkemail(useremail);
 		return service.findByName(tech);
 	}

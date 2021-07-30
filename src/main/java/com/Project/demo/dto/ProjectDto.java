@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.Project.demo.model.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,15 +16,15 @@ public class ProjectDto implements Serializable {
 	private Date ProjectStartDate;
 	private Date ProjectEndDate;
 	private Long EmployeeCount;
-	private Employee createdBy;
+	private String createdBy;
 	private List<String> technologies;
 	private List<String> employees;
 
-	public Employee getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Employee createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 

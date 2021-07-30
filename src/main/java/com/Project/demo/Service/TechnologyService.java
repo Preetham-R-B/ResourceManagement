@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.Project.demo.dao.EmployeeRepo;
 import com.Project.demo.dao.TechnologyRepo;
+import com.Project.demo.dto.TechnologyDto;
 import com.Project.demo.model.Technology;
 
 @Service
@@ -28,9 +29,14 @@ public class TechnologyService extends BaseService {
 	private Logger logger = LogManager.getLogger(TechnologyService.class);
 
 	@Transactional(readOnly = true)
-	public List<Technology> TechnologylistAll() {
+	public List<TechnologyDto> TechnologylistAll() {
 		// LogManager.getLogger("Inside Findall");
-		return repo.findAll();
+		List<Technology> techList = repo.findAll();
+		List<TechnologyDto> returnList = null;
+		for (Technology technology : techList) {
+			returnList.add(new TechnologyDto(technology.getTechnologyId(), technology.getTechnologyName()));
+		}
+		return returnList;
 	}
 
 	@Transactional(rollbackFor = SQLException.class, readOnly = false)
@@ -67,8 +73,13 @@ public class TechnologyService extends BaseService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Technology> findByName(String tech) {
-		return repo.findByTechnologyName(tech);
+	public List<TechnologyDto> findByName(String tech) {
+		List<Technology> techlist = repo.findByTechnologyName(tech);
+		List<TechnologyDto> finalList = null;
+		for (Technology t : techlist) {
+			finalList.add(new TechnologyDto(t.getTechnologyId(), t.getTechnologyName()));
+		}
+		return finalList;
 
 	}
 

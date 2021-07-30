@@ -108,7 +108,8 @@ public class ProjectService extends BaseService {
 
 	@Transactional(readOnly = true)
 	private boolean checkIfProjectOwner(Long projectId, String useremail) {
-		if (projectRepo.findById(projectId).get().getEmployee().getEmployeeEmail().equals(useremail))
+		Project p = projectRepo.findById(projectId).get();
+		if (p.getEmployee().getEmployeeEmail().equals(useremail))
 			return true;
 		return false;
 	}
@@ -143,6 +144,7 @@ public class ProjectService extends BaseService {
 	private ProjectDto assignProjectToDto(Project project) {
 		if (Objects.nonNull(project)) {
 			ProjectDto p = new ProjectDto();
+			p.setProjectId(project.getProjectId());
 			p.setCreatedBy(project.getEmployee().getEmployeeEmail());
 			p.setEmployeeCount(project.getEmployeeCount());
 			p.setProjectDescription(project.getProjectDescription());

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,38 +14,16 @@ public class ProjectDto implements Serializable {
 	private long projectId;
 	private String projectName;
 	private String ProjectDescription;
-	private Date ProjectStartDate;
-	private Date ProjectEndDate;
-	private Long EmployeeCount;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private Date projectStartDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private Date projectEndDate;
+	private Long employeeCount;
 	private String createdBy;
 	private List<String> technologies;
 	private List<String> employees;
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public List<String> getTechnologies() {
-		return technologies;
-	}
-
-	public void setTechnologies(List<String> technologies) {
-		this.technologies = technologies;
-	}
-
-	public List<String> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(List<String> employees) {
-		this.employees = employees;
-	}
-
-	public Long getProjectId() {
+	public long getProjectId() {
 		return projectId;
 	}
 
@@ -69,27 +48,51 @@ public class ProjectDto implements Serializable {
 	}
 
 	public Date getProjectStartDate() {
-		return ProjectStartDate;
+		return projectStartDate;
 	}
 
 	public void setProjectStartDate(Date projectStartDate) {
-		ProjectStartDate = projectStartDate;
+		this.projectStartDate = projectStartDate;
 	}
 
 	public Date getProjectEndDate() {
-		return ProjectEndDate;
+		return projectEndDate;
 	}
 
 	public void setProjectEndDate(Date projectEndDate) {
-		ProjectEndDate = projectEndDate;
+		this.projectEndDate = projectEndDate;
 	}
 
 	public Long getEmployeeCount() {
-		return EmployeeCount;
+		return employeeCount;
 	}
 
 	public void setEmployeeCount(Long employeeCount) {
-		EmployeeCount = employeeCount;
+		this.employeeCount = employeeCount;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public List<String> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(List<String> technologies) {
+		this.technologies = technologies;
+	}
+
+	public List<String> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<String> employees) {
+		this.employees = employees;
 	}
 
 }
